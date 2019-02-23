@@ -1,0 +1,24 @@
+{ 
+    "manifest_version": 2,
+    "name": "12306",
+    "version": "1.0",
+    "description": "查询从当前站到终点站所有可上车车票",
+    "browser_action": {
+        "default_icon": "assets/icons/icon.png",
+        "default_title": "12306站点查询", 
+        "default_popup": "popup.html"
+    }, 
+    "permissions": [
+        "https://*.12306.cn/"
+    ], 
+    "background":{
+        "scripts": ["js/background.js"]
+    }, 
+     "content_scripts": [{
+         "matches": ["http://*/*","https://*/*"],
+         "js": ["js/jquery.min.js","js/main.js"],
+         "css": ["assets/styles/main.css"],
+         "run_at": "document_start"
+    }],
+    "web_accessible_resources": ["assets/images/*" ]
+  }

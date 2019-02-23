@@ -1,0 +1,14 @@
+.zj-btn{
+  cursor: pointer;
+}
+.zj-btn>img{
+  width: 16px;
+  height: 16px;
+  transform: translate(0, 3px);
+}
+.zj-disabled{
+  color: #aaa;
+}
+.zj-disabled:hover{
+  cursor: not-allowed;
+}
