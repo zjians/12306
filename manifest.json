@@ -2,20 +2,13 @@
     "manifest_version": 2,
     "name": "12306",
     "version": "1.0",
-    "description": "查询从当前站到终点站所有可上车车票",
-    "browser_action": {
+    "description": "查询当前车次有余票的站点",
+    "page_action": {
         "default_icon": "assets/icons/icon.png",
-        "default_title": "12306站点查询", 
-        "default_popup": "popup.html"
-    }, 
-    "permissions": [
-        "https://*.12306.cn/"
-    ], 
-    "background":{
-        "scripts": ["js/background.js"]
-    }, 
+        "default_title": "12306上车票"
+    },
      "content_scripts": [{
-         "matches": ["http://*/*","https://*/*"],
+         "matches": ["https://*.12306.cn/*"],
          "js": ["js/jquery.min.js","js/main.js"],
          "css": ["assets/styles/main.css"],
          "run_at": "document_start"
