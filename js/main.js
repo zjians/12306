@@ -45,8 +45,9 @@ $(function () {
   })
 
   function getShortName (stationName) {
+    const regExp = new RegExp(`[\|]${stationName}[\|]`)
     const nameString = station_names_array.find((item) => {
-      return item.indexOf(stationName) != -1
+      return regExp.test(item)
     })
     return nameString.split('|')[2]
   }
@@ -82,12 +83,14 @@ $(function () {
   }
 
   function handleSuccessCallback (currentStationIndex, el_tr, res) {
-    if (!res.data) {
+    if (!res.data || !res.data.result.length) {
+      $(el_tr[currentStationIndex]).children('.zj-loading').remove()
+      $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>--</span></td>`)
       return
     }
     const stationData = formatData(res.data.result)
     if (stationData && stationData.length) {
-      stationData.find(item => {
+      stationData.find((item, index) => {
         const station_query = item['queryLeftNewDTO']
         if (station_query.station_train_code === station_train_code) {
           if (station_query.canWebBuy === 'Y') {
@@ -98,6 +101,9 @@ $(function () {
             $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>购买</span></td>`)
           }
           return true
+        } else if (index === stationData.length - 1) { // 若没有找到则返回 '--'
+          $(el_tr[currentStationIndex]).children('.zj-loading').remove()
+          $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>--</span></td>`)
         }
       })
     }
@@ -154,4 +160,5 @@ $(function () {
     }
     return cs
   }
+
 })
