@@ -85,31 +85,29 @@ $(function () {
   function handleSuccessCallback (currentStationIndex, el_tr, res) {
     if (!res.data || !res.data.result.length) {
       $(el_tr[currentStationIndex]).children('.zj-loading').remove()
-      $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>--</span></td>`)
+      $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>--</span></td>`)
       return
     }
     const stationData = formatData(res.data.result)
     if (stationData && stationData.length) {
+      $(el_tr[currentStationIndex]).children('.zj-loading').remove()
       stationData.find((item, index) => {
         const station_query = item['queryLeftNewDTO']
         if (station_query.station_train_code === station_train_code) {
           if (station_query.canWebBuy === 'Y') {
-            $(el_tr[currentStationIndex]).children('.zj-loading').remove()
             $(el_tr[currentStationIndex]).append(`<td><a href="javascript:" onclick="checkG1234('${item.secretStr}', '${station_query.start_time}', '${station_query.train_no}', '${station_query.from_station_telecode}', '${station_query.to_station_telecode}')">购买</a></td>`)
           } else {
-            $(el_tr[currentStationIndex]).children('.zj-loading').remove()
-            $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>购买</span></td>`)
+            $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>购买</span></td>`)
           }
           return true
-        } else if (index === stationData.length - 1) { // 若没有找到则返回 '--'
-          $(el_tr[currentStationIndex]).children('.zj-loading').remove()
-          $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled' disabled>--</span></td>`)
+        } else if (index === stationData.length - 1) {
+          $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>--</span></td>`)
         }
       })
     }
   }
 
-  function formatData(ct, cv) {
+  function formatData(ct) {
     var cs = [];
     for (var cr = 0; cr < ct.length; cr++) {
         var cw = [];
@@ -153,8 +151,6 @@ $(function () {
         cu.yp_ex = cq[34];
         cu.seat_types = cq[35];
         cu.exchange_train_flag = cq[36];
-        // cu.from_station_name = cv[cq[6]];
-        // cu.to_station_name = cv[cq[7]];
         cw.queryLeftNewDTO = cu;
         cs.push(cw)
     }
