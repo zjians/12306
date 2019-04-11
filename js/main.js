@@ -3,13 +3,6 @@ $(function () {
   let queryUrl = 'leftTicket/queryZ'
   let station_train_code = ''
   let can_click = true // 节流
-  $.ajax({
-    type: 'GET',
-    url: `https://kyfw.12306.cn/otn/${queryUrl}?leftTicketDTO.train_date=2019-02-20&leftTicketDTO.from_station=VNP&leftTicketDTO.to_station=NKH&purpose_codes=ADULT`,
-    error: function (res) {
-      queryUrl = res.responseJSON.c_url
-    }
-  })
   $(document).on('click', '.train', (e) => {
     $('#train_div_').width('400px')
     if (!can_click) {
@@ -19,12 +12,17 @@ $(function () {
     if (!station_names_array.length) {
       const script = document.createElement('script');
       script.type = 'text/javascript';
-      script.innerHTML = "document.body.setAttribute('data-station-name', station_names);";
+      const setCLeftTicketUrl = "document.body.setAttribute('data-query-url', CLeftTicketUrl);";
+      script.innerHTML = "document.body.setAttribute('data-station-name', station_names);"+setCLeftTicketUrl;
       document.head.appendChild(script);
       document.head.removeChild(script);
       const station_names = document.body.getAttribute('data-station-name')
+      const CLeftTicketUrl = document.body.getAttribute('data-query-url')
       if (station_names) {
         station_names_array = station_names.split('@')
+      }
+      if (CLeftTicketUrl) {
+        queryUrl = CLeftTicketUrl
       }
     }
     const el_pop = $('#train_div_')
