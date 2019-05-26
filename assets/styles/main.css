@@ -9,3 +9,8 @@
 .zj-disabled:hover{
   cursor: not-allowed;
 }
+.info-wrapper{
+  font-size: 10px;
+  color: #666;
+  font-style: normal;
+}

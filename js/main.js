@@ -93,13 +93,21 @@ $(function () {
         const station_query = item['queryLeftNewDTO']
         if (station_query.station_train_code === station_train_code) {
           if (station_query.canWebBuy === 'Y') {
-            $(el_tr[currentStationIndex]).append(`<td><a href="javascript:" onclick="checkG1234('${item.secretStr}', '${station_query.start_time}', '${station_query.train_no}', '${station_query.from_station_telecode}', '${station_query.to_station_telecode}')">购买</a></td>`)
+            var html = `<td style='width: 210px;'>
+                          <a href="javascript:" onclick="checkG1234('${item.secretStr}', '${station_query.start_time}', '${station_query.train_no}', '${station_query.from_station_telecode}', '${station_query.to_station_telecode}')">
+                            购买 <i class='info-wrapper'>(二等:${station_query.ze_num} 一等: ${station_query.zy_num} 商务: ${station_query.swz_num})</i>
+                          </a>
+                        </td>`
+            $(el_tr[currentStationIndex]).append(html)
+            $('#train_div_').width('500px')
+            $('#train_span_').width('400px')
+            $('.station .station-bd table td').css('width', '55px')
           } else {
             $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>购买</span></td>`)
           }
           return true
         } else if (index === stationData.length - 1) {
-          $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>--</span></td>`)
+          $(el_tr[currentStationIndex]).append(`<td><span class='zj-disabled'>重试</span></td>`)
         }
       })
     }
